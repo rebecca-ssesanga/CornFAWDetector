@@ -1,4 +1,5 @@
-# 🌽 Corn FAW Detector
+# 🌽 Corn FAW Detector – Mobile Computer Vision System for Fall Armyworm Detection in Maize Leaves
+
 ### A Mobile, Machine Learning-Based Application for Fall Armyworm Pest Damage Detection in Maize Leaves
 
 ![Project Banner](https://user-images.githubusercontent.com/placeholder/banner.png) <!-- Optional: Replace with a real banner image -->
