@@ -1,86 +1,185 @@
-# 🌽 Corn FAW Detector – Mobile Computer Vision System for Fall Armyworm Pest Damage Detection in Maize Leaves
+# Corn FAW Detector 🌽🪰
 
-### A Mobile, Machine Learning-Based Application for Fall Armyworm Pest Damage Detection in Maize Leaves
+### A Mobile Computer Vision System for Fall Armyworm Damage Detection in Maize Leaves
 
-![Project Banner](https://user-images.githubusercontent.com/placeholder/banner.png) <!-- Optional: Replace with a real banner image -->
+**Corn FAW Detector** is a mobile machine learning and computer vision project developed as part of my Master's research at Makerere University. The project investigates the use of convolutional neural networks (CNNs) to detect Fall Armyworm (FAW) damage in maize leaves and deploys the selected model as an Android application for field-level testing.
 
-## 📱 Overview
-**Corn FAW Detector** is a mobile application developed as part of a Master's research project to tackle the critical issue of Fall Armyworm (FAW) infestations in maize crops. The app uses a lightweight, efficient deep learning model to detect FAW damage from maize leaf images, enabling faster, more accurate field-level pest diagnosis.
+The project combines **image dataset curation, transfer learning, CNN model comparison, model evaluation, TensorFlow Lite conversion, Android deployment, and field testing**.
 
-## 🧠 Problem Statement
-- Early detection of FAW infestation is essential for effective pest management and crop health.
-- Traditional inspection methods are slow, expensive, and prone to human error.
-- There's a growing need for scalable, low-cost, tech-driven tools for real-time field diagnosis.
-
-## 🎯 Objectives
-- Curate a dataset of **2,868** maize leaf images (healthy vs FAW-damaged).
-- Evaluate and compare CNN models including **VGG16**, **MobileNetV2**, and **InceptionV3**.
-- Measure performance using the **F1 Score** from the confusion matrix.
-- Deploy the best-performing model in an Android application for real-world use.
-
-## 🔧 Methodology
-- 📸 **Data Collection:** Sourced from an ongoing agricultural research project in Uganda.
-- 🧹 **Preprocessing:** Image resizing, normalization, and augmentation.
-- 🧪 **Model Training:** Used transfer learning on multiple CNN architectures.
-- 📲 **Deployment:** Integrated the best model (MobileNetV2) using **TensorFlow Lite** into an Android app using Java.
-
-## 🚀 Results
-- **MobileNetV2** achieved:
-  - 🟢 **Training Accuracy:** 99.87%
-  - 🧪 **Test Accuracy:** 99.65%
-  - 🏆 **F1 Score:** 1.00
-- Real-world testing on 300 maize leaves showed robust accuracy and reliability under different conditions.
-
-## 🧪 Field Testing
-- Tested on diverse maize samples across varying lighting and weather conditions.
-- Compatible with different Android cameras.
-- Positive user feedback on usability and real-time prediction.
-
-## Real-World Validation Results
-
-| Category | Metric | Result | Analysis |
-| :--- | :--- | :--- | :--- |
-| **Detection** | Precision | 100% | No false alarms for Fall Armyworm damage. |
-| **Sensitivity** | Healthy Recall | 90% | Successfully validated 180 out of 200 healthy samples. |
-| **Structural** | OOD Detection | 100% | Properly rejected 50/50 non-maize crop images. |
-| **Reliability** | Test-Retest | 80% | Consistent classification across repetitive field runs. |
-| **UX/UI** | User Rating | High | Validated for speed, ease of use, and multi-device compatibility. |
+> **Research context:** This project was developed to explore how lightweight computer vision models can support maize pest detection in practical agricultural settings, particularly where smartphone-based tools may provide a more accessible means of obtaining preliminary crop assessments.
 
 ---
 
-## 🔍 Lessons Learned & Research Insights
+## 🎯 Project Objectives
 
-This section highlights the critical insights gained during the development and field-testing of the MobileNetV2 model.
+The research had four main objectives:
 
-### 1. Error Analysis: Addressing False Negatives
-The field test identified **20 instances** where diseased leaves were classified as "Healthy" (False Negatives). This indicates a specific **Recall gap** that is critical for early intervention in agricultural settings.
-* **The Root Cause:** Preliminary analysis suggests these errors occurred during **early-stage infection** where lesions were small or partially obscured by shadows and leaf folds.
-* **Engineering Fix:** I plan to implement **Heatmap Visualization (Grad-CAM)** to interpret the model's focus areas and refine feature extraction for subtle lesion patterns.
+1. Curate and prepare a dataset of maize leaf images representing healthy leaves and leaves affected by Fall Armyworm.
+2. Compare the performance of three pretrained CNN architectures:
 
-### 2. Environmental Sensitivity
-While the application demonstrated high camera compatibility, performance fluctuated under **extreme sunlight angles**.
-* **Research Insight:** Real-world agricultural data is significantly "noisier" than curated datasets. Harsh lighting and varied occlusion can degrade model generalization.
-* **Future Mitigation:** I will expand the training pipeline with **advanced data augmentation**—specifically simulating diverse lighting and shadow conditions—to improve field robustness.
-
-### 3. Structural Specificity vs. Generalization
-The model successfully rejected **100% of non-maize crops** (Out-of-Distribution data).
-* **Key Finding:** This confirms that the **MobileNetV2** architecture, combined with my custom dataset of 2,868 images, developed a strong feature extraction capability for **maize-specific morphology**.
+   * VGG16
+   * MobileNetV2
+   * InceptionV3
+3. Evaluate the models using accuracy, confusion matrices, and F1-score.
+4. Deploy the selected model as an Android application and evaluate its performance using unseen field images.
 
 ---
 
-## 📉 Limitations
-- **Operational Constraints:** Extended training time and training interruptions due to resource limitations.
-- **Model Reliability:** Occasional **false negatives** in early-stage pest detection.
-- **Overfitting:** Observed in the **InceptionV3** model during the experimentation phase, leading to the selection of the more efficient MobileNetV2 for final deployment.
+## 📊 Dataset
 
-## 💡 Recommendations
-- **Optimization:** Perform hyperparameter tuning and integrate regularization techniques like **Dropout** and **Batch Normalization** to further reduce overfitting.
-- **Generalization:** Conduct additional testing across **all maize growth stages** to ensure the model handles variations in leaf size and color throughout the season.
+The core research dataset contained **2,868 maize leaf images**:
 
-## 🔮 Future Work
-- **Model Interpretability:** Implement **Grad-CAM** to improve model localization and user trust.
-- **Dataset Expansion:** Annotate FAW-affected regions in images and expand the dataset to include other pests and crop types.
-- **Advanced Architectures:** Explore **Ensemble Learning** or hybrid CNN models to push accuracy beyond current benchmarks.
+| Class                 |    Images |
+| --------------------- | --------: |
+| Healthy               |     1,469 |
+| Fall Armyworm damaged |     1,399 |
+| **Total**             | **2,868** |
+
+The dataset was organized into training, validation, and testing subsets using an approximately **80:10:10 split**.
+
+The dataset preparation and model development were carried out using real-world maize leaf images, with the aim of evaluating the models beyond purely controlled image conditions.
+
+---
+
+## 🧠 Model Development
+
+The project evaluated three pretrained CNN architectures using transfer learning:
+
+* **VGG16**
+* **MobileNetV2**
+* **InceptionV3**
+
+The models were adapted for binary classification of maize leaves as either:
+
+* Healthy
+* Fall Armyworm damaged
+
+Training and evaluation were performed using Python-based machine learning workflows in Jupyter notebooks. The models were trained and evaluated over **80 epochs**.
+
+### Model Comparison
+
+| Model           | Training Accuracy | Testing Accuracy | F1 Score |
+| --------------- | ----------------: | ---------------: | -------: |
+| VGG16           |            97.90% |           98.26% |     0.98 |
+| **MobileNetV2** |        **99.87%** |       **99.65%** | **1.00** |
+| InceptionV3     |            98.21% |           92.68% |     0.92 |
+
+Based on the comparative evaluation, **MobileNetV2 was selected for mobile deployment** because it achieved the strongest results among the three evaluated architectures.
+
+---
+
+## 📱 Mobile Deployment
+
+The selected MobileNetV2 model was converted from the trained TensorFlow/Keras model into **TensorFlow Lite (`.tflite`)** for mobile deployment.
+
+The resulting model was integrated into an Android application developed using:
+
+* **Java**
+* **Android Studio**
+* **TensorFlow Lite**
+* **XML**
+
+The application allows a user to:
+
+1. Capture a maize leaf image using the phone camera, or
+2. Select an existing image from the phone gallery.
+3. Submit the image for classification.
+4. View the resulting classification.
+
+The deployment process was designed around the practical constraints of smartphone-based agricultural applications.
+
+---
+
+## 🔬 Additional Unknown-Image Training
+
+Following the initial model comparison, the selected MobileNetV2 model was additionally retrained using a merged dataset containing the original training data and **7,858 unknown images obtained from Kaggle**.
+
+This retraining produced a reported testing accuracy of **99.71%**.
+
+This result belongs to the subsequent retraining/deployment stage and should therefore be distinguished from the **99.65% testing accuracy** reported in the original three-model comparison.
+
+---
+
+## 🌱 Field Testing
+
+The Android application was subsequently evaluated using **unseen maize leaf images during one week of field testing**.
+
+A total of **300 leaves** were assessed:
+
+| Application Result |  Number |
+| ------------------ | ------: |
+| Healthy            |     200 |
+| Fall Armyworm      |      60 |
+| Unknown            |      40 |
+| **Total**          | **300** |
+
+Comparison with the observed condition of the leaves showed:
+
+* Of the **200 leaves classified as Healthy**, 180 were actually healthy.
+* **20 leaves affected by Fall Armyworm were classified as Healthy**.
+* All **60 leaves classified as Fall Armyworm** matched the observed condition.
+* During repeated testing of 100 leaves, **80 produced consistent predictions**.
+* A separate set of **50 non-maize leaves** was classified as **Unknown**.
+
+These field results provided an additional perspective on model behaviour outside the original test dataset.
+
+---
+
+## ⚠️ Limitations
+
+The research identified several limitations:
+
+* False negatives occurred during field testing, including FAW-affected leaves being classified as Healthy.
+* Field conditions introduced variation related to **image angle, shadows, weather, and camera conditions**.
+* Field testing was affected by the timing of the study, as many maize plants were already approaching harvesting and some leaves had dried.
+* InceptionV3 showed greater evidence of overfitting compared with VGG16 and MobileNetV2.
+* Model training was affected by computational and runtime constraints during the research process.
+  The ability to classify the tested non-maize images as **Unknown** was demonstrated in the field evaluation. However, this should not be interpreted as evidence of general out-of-distribution (OOD) detection across arbitrary unseen inputs.
+
+---
+
+## 🚀 Future Research
+
+The dissertation identified several directions for further development:
+
+* Expand and diversify the training dataset.
+* Annotate affected regions of maize leaves to help the model focus on damaged areas.
+* Further tune model hyperparameters to reduce false negatives.
+* Investigate additional CNN architectures and ensemble approaches.
+* Explore hybrid approaches combining deep learning with traditional image-processing techniques.
+* Expand the system to support a broader range of agricultural crops and conditions.
+* Conduct additional field evaluation during the active crop-growing period.
+
+---
+
+## 🛠️ Technologies
+
+**Machine Learning & Computer Vision**
+
+* Python
+* TensorFlow / Keras
+* CNNs
+* Transfer Learning
+* VGG16
+* MobileNetV2
+* InceptionV3
+* TensorFlow Lite
+
+**Android Development**
+
+* Java
+* Android Studio
+* XML
+
+**Research & Development**
+
+* Jupyter Notebooks
+* Image dataset curation
+* Model evaluation
+* Confusion matrices
+* Field testing
+
+---
 
 ## 📂 Project Structure
 
@@ -93,7 +192,9 @@ The model successfully rejected **100% of non-maize crops** (Out-of-Distribution
 │   ├── VGG16_MobilenetV2_EfficientNetV2B0.ipynb
 │   └── maize_dataset/
 ```
+*The structure above describes the intended organisation of the project; individual folders/files may differ in the current repository.*
 
+---
 ## 📸 Screenshots
 
 ### 🔍 Classification Results
@@ -118,28 +219,58 @@ This UI illustrates the interaction flow of the Corn FAW Detector Android app:
 ![Application UI](./Application%20UI.jpg)
 
 
-## 🛠️ Tools & Technologies
-- Android Studio (Java)
-- TensorFlow & TensorFlow Lite
-- Google Colab / Jupyter Notebook
-- OpenCV & Matplotlib (for preprocessing & visualization)
+## 📌 Research Contribution
 
-## 👩‍💻 Author
-**Rebecca Ssesanga**  
-Master of Science in Technology Innovation and Industrial Development  
-Makerere University, Uganda  
-📧 nalybecks@gmail.com  
-🔗 [LinkedIn](https://linkedin.com/in/rebecca-ssesanga-042935187)
+This project demonstrates an end-to-end applied machine learning workflow:
 
-## 📌 Academic Use Disclaimer
+**Agricultural problem → Image dataset → CNN model development → Model comparison → MobileNetV2 selection → TensorFlow Lite conversion → Android deployment → Field evaluation**
 
-This project was developed as part of a Master's thesis at **Makerere University**.  
-It is shared here for academic and demonstration purposes only.  
-Please contact the author (**Rebecca Ssesanga**) at 📧 nalybecks@gmail.com for reuse permissions.
+The work is particularly focused on the practical application of computer vision to an agricultural challenge in Uganda and demonstrates the process of taking an ML model from experimental development into a mobile prototype for field testing.
 
 ---
 
-> ⚠️ *This project is research-based and intended for educational and agricultural extension purposes. Field testing should be continued to ensure consistent performance across varying agronomic conditions.*
+## 🎓 Research Context
+
+This project formed part of my Master's research in **Technology Innovation & Industrial Development at Makerere University**.
+
+The original research focused on the development and evaluation of a mobile machine-learning system for Fall Armyworm damage detection in maize leaves.
+
+A subsequent **AI governance and responsible AI analysis** is being developed separately from the original dissertation to examine questions around model reliability, deployment risks, human oversight, data governance, monitoring, and responsible deployment.
+
+---
+
+## 👩🏽‍💻 Author
+
+**Rebecca Ssesanga**
+ML Engineer · AI Governance Researcher
+Makerere University — MSc Technology Innovation & Industrial Development
+
+📧 **[rebeccassesanga@gmail.com](mailto:rebeccassesanga@gmail.com)**
+
+🔗 GitHub: https://github.com/rebecca-ssesanga
+
+---
+
+## ⚖️ Academic Disclaimer
+
+This project was developed as part of a **Master's thesis at Makerere University** and is shared here for **academic, educational, research, and demonstration purposes**.
+
+The reported results reflect the datasets, experimental conditions, and field-testing conditions described in the associated research. While the application demonstrated promising performance during testing, **continued field evaluation is recommended to assess consistency across varying agronomic, environmental, and imaging conditions**.
+
+The **Corn FAW Detector** should not be treated as a substitute for professional agricultural diagnosis, expert assessment, or pest-management advice. Field testing and further validation should be conducted before considering the system for operational or broader agricultural use.
+
+For reuse, adaptation, or other academic use of this work, please contact the author:
+
+**Rebecca Ssesanga**
+📧 **[rebeccassesanga@gmail.com](mailto:rebeccassesanga@gmail.com)**
+
+---
+
+## 📄 Research
+
+For the full methodology, dataset preparation, model development and evaluation, Android deployment, field-testing procedure, limitations, conclusions, and recommendations, please refer to the associated **Master's dissertation**.
+
+This repository presents the research project and prototype; subsequent analysis may build on the original work to examine additional questions around responsible and reliable deployment.
 
 
 
